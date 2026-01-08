@@ -708,6 +708,8 @@ if solar_col in plot_df.columns:
         unsafe_allow_html=True
     )
 
+    # --- Info note ---
+    st.caption("<span style='color:red'>* This panel is useful for selecting a single-day period (for example, 01.01.2026 to 02.01.2026).", unsafe_allow_html=True)
 
     # ---------------- NET Radiation Plot ----------------
 nr_col = "NET Radiation  (w/m2)"  # use exact column name after rename
