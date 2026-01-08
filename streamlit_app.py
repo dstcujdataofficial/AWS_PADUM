@@ -397,45 +397,46 @@ if not plot_df.empty:
     )
 
     # ---------------- Snow Depth Plot ----------------
-    snowD_col = "Snow Depth (mm)"
-    if snowD_col in plot_df.columns:
-    # Convert to numeric safely
+snowD_col = "Snow Depth (mm)"
+
+if snowD_col in plot_df.columns:
+
+    # Convert to numeric
     plot_df[snowD_col] = pd.to_numeric(plot_df[snowD_col], errors="coerce")
     filtered_df[snowD_col] = pd.to_numeric(filtered_df[snowD_col], errors="coerce")
-    # # Ensure precipitation is numeric
-    # plot_df["Snow Depth (mm)"] = pd.to_numeric(plot_df["Snow Depth (mm)"], errors="coerce")
-    
-    # Calculate daily totals
-    totalsd = plot_df.groupby("Date")[snowD_col].sum().round(1).to_dict()
-    
-    # Create new column for legend labels
-    plot_df["Date with total snowD."] = plot_df["Date"].astype(str) + " (Total: " + plot_df["Date"].map(totalsd).astype(str) + " mm)"
 
-    # # Plot
-    # fig = px.line(
-    #     plot_df,
-    #     x="Time",
-    #     y="Snow Depth (mm)",
-    #     color="Date with total preci.",
-    #     title="Snow Depth The Time (by Date)",
-    #     markers=True
-    # )
+    # Skip if no valid data
+    if not plot_df[snowD_col].dropna().empty:
 
-    # fig.update_xaxes(dtick=4)
-    # st.plotly_chart(fig, use_container_width=True)
+        # Daily maximum snow depth (physically meaningful)
+        daily_max_sd = (
+            plot_df.groupby("Date")[snowD_col]
+            .max()
+            .round(1)
+            .to_dict()
+        )
 
-       if not plot_df[temp_col].isna().all():
-        fig_temp = px.line(
+        # Legend with daily max
+        plot_df["Date with max snow depth"] = (
+            plot_df["Date"].astype(str)
+            + " (Max: "
+            + plot_df["Date"].map(daily_max_sd).astype(str)
+            + " mm)"
+        )
+
+        fig_snow = px.line(
             plot_df,
-            x="Time", y=snowD_col, color="Date",
-            title="Snow Depth The Time (by Date)",
+            x="Time",
+            y=snowD_col,
+            color="Date with max snow depth",
+            title="Snow Depth Over Time (by Date)",
             markers=True
         )
-        fig_temp.update_xaxes(dtick=4)  # every 2 hours
-        fig_temp.update_yaxes(title="Snow Depth (mm)")
 
-        st.plotly_chart(fig_temp, use_container_width=True)
+        fig_snow.update_xaxes(dtick=4)
+        fig_snow.update_yaxes(title="Snow Depth (mm)")
 
+        st.plotly_chart(fig_snow, use_container_width=True)
 
     # ---------------- Wind Roses ----------------
     filtered_df["Wind Direction (degree)"] = pd.to_numeric(filtered_df["Wind Direction (degree)"], errors="coerce")
