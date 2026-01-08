@@ -396,6 +396,23 @@ if not plot_df.empty:
         """, unsafe_allow_html=True
     )
 
+    # ---------------- Snow Depth Plot ----------------
+    # Create new column for legend labels
+    plot_df["Date with total preci."] = plot_df["Date"].astype(str) + " (Total: " + plot_df["Date"].map(totals).astype(str) + " mm)"
+
+    # Plot
+    fig = px.line(
+        plot_df,
+        x="Time",
+        y="Snow Depth (mm)",
+        color="Date with total preci.",
+        title="Snow Depth The Time (by Date)",
+        markers=True
+    )
+
+    fig.update_xaxes(dtick=4)
+    st.plotly_chart(fig, use_container_width=True)
+        
     # ---------------- Wind Roses ----------------
     filtered_df["Wind Direction (degree)"] = pd.to_numeric(filtered_df["Wind Direction (degree)"], errors="coerce")
     filtered_df["Wind Speed (m/s)"] = pd.to_numeric(filtered_df["Wind Speed (m/s)"], errors="coerce")
