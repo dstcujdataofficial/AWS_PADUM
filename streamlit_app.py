@@ -401,7 +401,7 @@ if not plot_df.empty:
     plot_df1["Snow Depth (mm)"] = pd.to_numeric(plot_df["Snow Depth (mm)"], errors="coerce")
     
     # Calculate daily totals
-    totalsd = plot_df.groupby("Date")["Snow Depth (mm)"].sum().round(1).to_dict()
+    totalsd = plot_df1.groupby("Date")["Snow Depth (mm)"].sum().round(1).to_dict()
     
     # Create new column for legend labels
     plot_df1["Date with total snowD."] = plot_df["Date"].astype(str) + " (Total: " + plot_df["Date"].map(totalsd).astype(str) + " mm)"
