@@ -277,7 +277,9 @@ def load_data():
     "9. Vapor Pressure (kPa)": "Vapour Pressure (kPa)",
     "5. Wind Speed (m/s)": "Wind Speed (m/s)",
     "18. Gust Wind Speed (m/s)": "Gust Wind Speed (m/s)",
-    "6. Wind Direction (degree)": "Wind Direction (degree)"
+    "6. Wind Direction (degree)": "Wind Direction (degree)",
+    "Snow Depth (mm)": "Snow Depth (mm)",
+    "NET Radiation  (w/m2)": "NET Radiation  (w/m2)"
     }
 
     df = df.rename(columns=rename_dict)
