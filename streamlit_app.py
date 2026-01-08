@@ -708,25 +708,6 @@ if solar_col in plot_df.columns:
         unsafe_allow_html=True
     )
 
-     # ---------------- Solar Radiation Plot ----------------
-nr_col = "NET Radiation (W/m2)"
-if nr_col in plot_df.columns:
-    # Convert safely
-    plot_df[nr_col] = pd.to_numeric(plot_df[nr_col], errors="coerce")
-    filtered_df[nr_col] = pd.to_numeric(filtered_df[nr_col], errors="coerce")
-
-    if not plot_df[nr_col].isna().all():
-        fig_nr = px.line(
-            plot_df,
-            x="Time", y=nr_col, color="Date",
-            title="NET Radiation Over The Time (by Date)",
-            markers=True
-        )
-        fig_solar.update_xaxes(dtick=4)  # every 2 hours
-        fig_solar.update_yaxes(title="NET Radiation (W/m²)")
-
-        st.plotly_chart(fig_nr, use_container_width=True)
-
     # ---------------- Relative Humidity Plot ----------------
     rh_col = "RH (in Fractio)"
 
