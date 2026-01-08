@@ -397,28 +397,46 @@ if not plot_df.empty:
     )
 
     # ---------------- Snow Depth Plot ----------------
-    # Ensure precipitation is numeric
-    plot_df["Snow Depth (mm)"] = pd.to_numeric(plot_df["Snow Depth (mm)"], errors="coerce")
+    snowD_col = "Snow Depth (mm)"
+    if snowD_col in plot_df.columns:
+    # Convert to numeric safely
+    plot_df[snowD_col] = pd.to_numeric(plot_df[snowD_col], errors="coerce")
+    filtered_df[snowD_col] = pd.to_numeric(filtered_df[snowD_col], errors="coerce")
+    # # Ensure precipitation is numeric
+    # plot_df["Snow Depth (mm)"] = pd.to_numeric(plot_df["Snow Depth (mm)"], errors="coerce")
     
     # Calculate daily totals
-    totalsd = plot_df.groupby("Date")["Snow Depth (mm)"].sum().round(1).to_dict()
+    totalsd = plot_df.groupby("Date")[snowD_col].sum().round(1).to_dict()
     
     # Create new column for legend labels
     plot_df["Date with total snowD."] = plot_df["Date"].astype(str) + " (Total: " + plot_df["Date"].map(totalsd).astype(str) + " mm)"
 
-    # Plot
-    fig = px.line(
-        plot_df,
-        x="Time",
-        y="Snow Depth (mm)",
-        color="Date with total preci.",
-        title="Snow Depth The Time (by Date)",
-        markers=True
-    )
+    # # Plot
+    # fig = px.line(
+    #     plot_df,
+    #     x="Time",
+    #     y="Snow Depth (mm)",
+    #     color="Date with total preci.",
+    #     title="Snow Depth The Time (by Date)",
+    #     markers=True
+    # )
 
-    fig.update_xaxes(dtick=4)
-    st.plotly_chart(fig, use_container_width=True)
-        
+    # fig.update_xaxes(dtick=4)
+    # st.plotly_chart(fig, use_container_width=True)
+
+       if not plot_df[temp_col].isna().all():
+        fig_temp = px.line(
+            plot_df,
+            x="Time", y=snowD_col, color="Date",
+            title="Snow Depth The Time (by Date)",
+            markers=True
+        )
+        fig_temp.update_xaxes(dtick=4)  # every 2 hours
+        fig_temp.update_yaxes(title="Snow Depth (mm)")
+
+        st.plotly_chart(fig_temp, use_container_width=True)
+
+
     # ---------------- Wind Roses ----------------
     filtered_df["Wind Direction (degree)"] = pd.to_numeric(filtered_df["Wind Direction (degree)"], errors="coerce")
     filtered_df["Wind Speed (m/s)"] = pd.to_numeric(filtered_df["Wind Speed (m/s)"], errors="coerce")
