@@ -404,7 +404,7 @@ if not plot_df.empty:
     fig = px.line(
         plot_df,
         x="Time",
-        y="Snow Depth (mm)",
+        y="Snow Depth",
         color="Date with total preci.",
         title="Snow Depth The Time (by Date)",
         markers=True
