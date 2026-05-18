@@ -173,7 +173,7 @@ st.markdown("""
             <img class="logo" src="https://raw.githubusercontent.com/sanjit-bs/Streamlit-AWS-Dashbord/main/CUJ_logo.png" alt="CUJ Logo">
             <div class="header-text">
             <div class="header-title">AUTOMATIC WEATHER STATION (PADUM, LADAKH)</div>
-            <div class="header-subtitle">Department of Geoinformatics</div>
+            <div class="header-subtitle">Department of Geoinformatics (Central University of Jharkhand)</div>
             </div>
             <img class="logo1" src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/dc/Ministry_of_Science_and_Technology_India.svg/1200px-Ministry_of_Science_and_Technology_India.svg.png" alt="MST Logo">
         </div>
